@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="PontosTuristicos.Api/PontosTuristicos.Api.csproj" />
+  <Project Path="PontosTuristicos.Application/PontosTuristicos.Application.csproj" />
+  <Project Path="PontosTuristicos.Domain/PontosTuristicos.Domain.csproj" />
+  <Project Path="PontosTuristicos.Infrastructure/PontosTuristicos.Infrastructure.csproj" />
+</Solution>

@@ -1,0 +1,6 @@
+@PontosTuristicos.Api_HostAddress = http://localhost:5247
+
+GET {{PontosTuristicos.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
