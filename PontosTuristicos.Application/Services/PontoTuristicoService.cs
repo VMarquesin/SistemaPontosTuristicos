@@ -1,6 +1,6 @@
 using System.Text;
 using PontosTuristicos.Application.DTOs;
-using PontosTuristicos.Application.interfaces;
+using PontosTuristicos.Application.Interfaces;
 using PontosTuristicos.Domain.Entities;
 using PontosTuristicos.Domain.Interfaces;
 
@@ -18,7 +18,11 @@ public class PontoTuristicoService : IPontoTuristicoService
     {
         return await _repository.ObterTodosAsync(termoBusca, pagina, tamanhoPagina);
     }
-    public async Task<PontoTuristico> AdicionarAsync(PontoTuristico dto)
+     public async Task<PontoTuristico> ObterPorIdAtivoAsync(int id)
+    {
+        return await _repository.ObterPorIdAsync(id);
+    }
+    public async Task<PontoTuristico> AdicionarAsync(PontoTuristicoDto dto)
     {
         var pontoTuristico = new PontoTuristico
         {

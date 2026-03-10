@@ -1,4 +1,8 @@
-namespace PontosTuristicos.Application.interfaces;
+using PontosTuristicos.Application.DTOs;
+using PontosTuristicos.Domain.Entities;
+
+
+namespace PontosTuristicos.Application.Interfaces;
 
 public interface IPontoTuristicoService
 {

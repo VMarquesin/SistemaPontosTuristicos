@@ -10,9 +10,9 @@ public class ApplicationDbContext : DbContext
     {}
     public DbSet<Estado> Estados { get; set; }
     public DbSet<Cidade> Cidades { get; set; }
-    public DbSet<PontoTuristico> PontoTuristicos { get; set; }
+    public DbSet<PontoTuristico> PontosTuristicos { get; set; }
 
-      protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
@@ -79,4 +79,3 @@ public class ApplicationDbContext : DbContext
         );
     }
 }
-
