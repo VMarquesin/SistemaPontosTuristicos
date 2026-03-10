@@ -1,3 +1,4 @@
+using Dapper;
 using Microsoft.EntityFrameworkCore;
 using PontosTuristicos.Domain.Entities;
 using PontosTuristicos.Domain.Interfaces;
@@ -13,11 +14,9 @@ public class PontoTuristicoRepository : IPontoTuristicoRepository
     {
         _context = context;
     }
-    public async Task<(IEnumerable<PontoTuristico> Itens, int ContadorTotal)> ObterTodosAsync(string termoBusca, int pagina, int tamanhoPagina)
+   public async Task<(IEnumerable<PontoTuristico> Itens, int ContadorTotal)> ObterTodosAsync(string termoBusca, int pagina, int tamanhoPagina)
     {
-        var query = _context.PontosTuristicos
-            .Where(p => p.Ativo)
-            .AsQueryable();
+        var query = _context.PontosTuristicos.Where(p => p.Ativo).AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(termoBusca))
         {
@@ -26,16 +25,24 @@ public class PontoTuristicoRepository : IPontoTuristicoRepository
             p.Descricao.Contains(termoBusca) ||
             p.Localizacao.Contains(termoBusca));
         }
-
         var contadorTotal = await query.CountAsync();
 
         var termo = string.IsNullOrWhiteSpace(termoBusca) ? "" : termoBusca;
-    
-        var itens = await _context.PontosTuristicos
-            .FromSqlInterpolated($"EXEC stp_BuscarPontosTuristicos {termo}, {pagina}, {tamanhoPagina}") 
-            .Include(p => p.Cidade) 
-            .ThenInclude(c => c.Estado)
-            .ToListAsync();
+
+        var connection = _context.Database.GetDbConnection(); 
+        var sql = "EXEC stp_BuscarPontosTuristicos @Termo, @Pagina, @TamanhoPagina";
+
+        var itens = await connection.QueryAsync<PontoTuristico, Cidade, Estado, PontoTuristico>(
+            sql,
+            map: (ponto, cidade, estado) => 
+            {
+                cidade.Estado = estado;
+                ponto.Cidade = cidade;  
+                return ponto;
+            },
+            param: new { Termo = termo, Pagina = pagina, TamanhoPagina = tamanhoPagina },
+            splitOn: "Id, Sigla" 
+        );
 
         return (itens, contadorTotal);
     }
@@ -66,3 +73,5 @@ public class PontoTuristicoRepository : IPontoTuristicoRepository
         await _context.SaveChangesAsync();
     }
 }
+
+
