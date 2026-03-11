@@ -36,8 +36,10 @@ const Detalhes = () => {
   if (!ponto) {
     return (
       <div className="empty-state">
+
         <h3>Ponto turístico não encontrado.</h3>
         <button className="btn-voltar" onClick={() => navigate(-1)}>Voltar</button>
+
       </div>
     );
   }
@@ -54,13 +56,17 @@ const Detalhes = () => {
         )}
         
         <div className="descricao-box">
+
           <strong>📝 Descrição:</strong>
           <p>{ponto.descricao}</p>
+
         </div>
         <div className="detalhes-actions">
+
           <button className="btn-voltar-center" onClick={() => navigate(-1)}>
             &laquo; Voltar para a lista
           </button>
+          
         </div>
       </div>
     </div>

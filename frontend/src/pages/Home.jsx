@@ -7,7 +7,6 @@ const [pontos, setPontos] = useState([]);
   
   const [busca, setBusca] = useState(''); 
   const [filtroAtivo, setFiltroAtivo] = useState(''); 
-  
   const [pagina, setPagina] = useState(1);
   const [total, setTotal] = useState(0);
   const [carregando, setCarregando] = useState(false);
@@ -22,6 +21,7 @@ const [pontos, setPontos] = useState([]);
       
     } catch (error) {
       console.error("Erro ao buscar a lista da API:", error);
+
     } finally {
       setCarregando(false);
     }
@@ -42,6 +42,7 @@ const [pontos, setPontos] = useState([]);
       
       {/* Barra de Pesquisa */}
       <form className="search-box" onSubmit={handleBusca}>
+
         <input 
           type="text" 
           placeholder="Buscar por nome, descrição ou localização..." 
@@ -49,10 +50,12 @@ const [pontos, setPontos] = useState([]);
           onChange={(e) => setBusca(e.target.value)}
         />
         <button type="submit">Buscar</button>
+
       </form>
 
       {/* Listagem dos Cards */}
       <section className="lista-pontos">
+
         {carregando ? (
           <div className="loading-state">Carregando pontos turísticos...</div>
         ) : pontos.length > 0 ? (
@@ -65,11 +68,13 @@ const [pontos, setPontos] = useState([]);
             <p>Tente buscar por outro termo ou cadastre um novo local!</p>
           </div>
         )}
+
       </section>
 
       {/* Controles de Paginação */}
       {!carregando && pontos.length > 0 && (
         <footer className="pagination">
+
           <button 
             disabled={pagina === 1} 
             onClick={() => setPagina(p => p - 1)}
@@ -85,6 +90,7 @@ const [pontos, setPontos] = useState([]);
           >
             Avançar &raquo;
           </button>
+          
         </footer>
       )}
     </div>

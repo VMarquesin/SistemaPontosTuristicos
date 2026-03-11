@@ -13,18 +13,17 @@ const Cadastro = () => {
     nome: '',
     descricao: '',
     localizacao: '',
+    cep: '',
     uf: '',
     cidade: ''
   });
 
-  // 1. Carrega os Estados (UFs) assim que a tela abre
   useEffect(() => {
     ibgeService.buscarEstados()
       .then(res => setUfs(res.data))
       .catch(err => console.error("Erro ao carregar UFs do IBGE", err));
   }, []);
 
-  // 2. O Efeito Cascata: Escuta as mudanças no campo 'uf'
   useEffect(() => {
     if (formData.uf) {
       setLoadingCidades(true);
@@ -34,15 +33,17 @@ const Cadastro = () => {
           setLoadingCidades(false);
         })
         .catch(err => console.error("Erro ao carregar Cidades do IBGE", err));
+
     } else {
-      setCidades([]); // Limpa a lista de cidades se o usuário desmarcar a UF
+
+      setCidades([]); 
     }
+
   }, [formData.uf]);
 
   const handleChange = (e) => {
+
     const { name, value } = e.target;
-    
-    // Regra de Negócio: Trava a digitação se passar de 100 caracteres
     if (name === 'descricao' && value.length > 100) return;
 
     setFormData({ ...formData, [name]: value });
@@ -51,17 +52,19 @@ const Cadastro = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSalvando(true);
+
     try {
-      // Dispara o POST para o nosso C#
       await pontoTuristicoService.cadastrar(formData);
-      
-      // Volta para a Home suavemente após o sucesso (sem alerts chatos)
+
       navigate('/');
+
     } catch (error) {
       console.error("Erro no cadastro:", error);
       alert("Erro ao cadastrar o ponto turístico. Verifique a conexão com a API.");
+
     } finally {
       setSalvando(false);
+
     }
   };
 
@@ -83,6 +86,7 @@ const Cadastro = () => {
         </div>
 
         <div className="field">
+
           <label>Localização (Endereço ou Referência):</label>
           <input 
             type="text" 
@@ -92,21 +96,38 @@ const Cadastro = () => {
             placeholder="Ex: Parque Nacional da Tijuca"
             required 
           />
+
         </div>
+
+        <div className="field" style={{ flex: 1 }}>
+            <label>CEP:</label>
+            <input 
+              type="text" 
+              name="cep" 
+              value={formData.cep} 
+              onChange={handleChange} 
+              placeholder="Ex: 17600000"
+              maxLength="8"
+            />
+          </div>
 
         <div className="row">
           <div className="field">
+
             <label>Estado (UF):</label>
+
             <select name="uf" value={formData.uf} onChange={handleChange} required>
               <option value="">Selecione o Estado</option>
               {ufs.map(uf => (
                 <option key={uf.id} value={uf.sigla}>{uf.sigla} - {uf.nome}</option>
               ))}
             </select>
+
           </div>
 
           <div className="field">
             <label>Cidade:</label>
+
             <select 
               name="cidade" 
               value={formData.cidade} 
@@ -121,10 +142,12 @@ const Cadastro = () => {
                 <option key={c.id} value={c.nome}>{c.nome}</option>
               ))}
             </select>
+
           </div>
         </div>
 
         <div className="field">
+
           <label>Descritivo:</label>
           <textarea 
             name="descricao" 
@@ -133,13 +156,14 @@ const Cadastro = () => {
             placeholder="Conte um pouco sobre este lugar..."
             required
           />
-          {/* Contador de caracteres elegante */}
+
           <small style={{ textAlign: 'right', color: 'var(--text-muted)' }}>
             {formData.descricao.length}/100
           </small>
         </div>
 
         <div className="detalhes-actions" style={{ justifyContent: 'space-between' }}>
+
           <button type="button" className="btn-voltar-center" onClick={() => navigate(-1)}>
             Cancelar
           </button>
@@ -147,6 +171,7 @@ const Cadastro = () => {
           <button type="submit" className="btn-main-action" disabled={salvando}>
             {salvando ? 'Salvando...' : 'Cadastrar Ponto'}
           </button>
+
         </div>
       </form>
     </div>

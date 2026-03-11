@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-// Sua API
+// API
 const api = axios.create({
   baseURL: 'http://localhost:5247/api' 
 });
 
-// Serviço para o IBGE 
+// Serviço IBGE 
 const ibgeApi = axios.create({
   baseURL: 'https://servicodados.ibge.gov.br/api/v1/localidades'
 });
@@ -15,7 +15,9 @@ export const pontoTuristicoService = {
     api.get(`/pontosturisticos?termoBusca=${termo}&pagina=${pagina}&tamanhoPagina=5`),
   
   obterPorId: (id) => api.get(`/pontosturisticos/${id}`),
-  cadastrar: (dados) => api.post('/pontosturisticos', dados)
+  cadastrar: (dados) => api.post('/pontosturisticos', dados),
+  atualizar: (id, dados) => api.put(`/pontosturisticos/${id}`, dados),
+  inativar: (id) => api.delete(`/pontosturisticos/${id}`)
 };
 
 export const ibgeService = {
