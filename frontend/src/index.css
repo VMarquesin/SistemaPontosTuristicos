@@ -1,0 +1,303 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --bg-color: #f8fafc;
+  --surface: #ffffff;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --border: #e2e8f0;
+  --radius: 12px;
+  --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  line-height: 1.5;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Header Moderno */
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.logo-box {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: -0.5px;
+}
+
+/* Botões Globais */
+button, .btn-main-action {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+button:hover, .btn-main-action:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  background-color: #cbd5e1;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Barra de Busca */
+.search-box {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+  background: var(--surface);
+  padding: 0.5rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.search-box input {
+  flex: 1;
+  border: none;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  outline: none;
+  border-radius: var(--radius);
+  color: var(--text-main);
+  background: transparent;
+}
+
+.lista-pontos {
+  display: grid;
+  gap: 1.5rem;
+}
+/* Cards da Listagem */
+.ponto-card {
+  background: var(--surface);
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column; 
+  align-items: flex-start; 
+  text-align: left; 
+  gap: 0.5rem;
+  transition: box-shadow 0.2s ease;
+  transition: all 0.3s ease-in-out; 
+  border: 1px solid var(--border);
+}
+
+.ponto-card:hover {
+  box-shadow: 0 12px 20px -5px rgb(0 0 0 / 0.1);
+  transform: translateY(-2px); 
+  border-color: #cbd5e1; 
+}
+
+.btn-detalhes {
+  background-color: transparent;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  transition: all 0.3s ease; 
+}
+
+.btn-detalhes:hover {
+  background-color: var(--primary);
+  color: white;
+}
+
+.ponto-card:hover {
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+}
+
+.ponto-info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.ponto-info h3 { margin-bottom: 0.25rem; font-size: 1.25rem; color: var(--text-main); }
+.ponto-cidade { font-size: 0.85rem; color: var(--primary); margin-top: 0.5rem; font-weight: 500;}
+
+.ponto-actions {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end; 
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+/* Formulários */
+.form-cadastro {
+  background: var(--surface);
+  padding: 2.5rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.field label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--text-main);
+}
+
+.field input, .field select, .field textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.field input:focus, .field select:focus, .field textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Estilos para o Card e Paginação */
+.ponto-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ponto-info h3 { margin-bottom: 0.25rem; }
+.ponto-cidade { font-size: 0.85rem; color: var(--primary); margin-top: 0.5rem; font-weight: 500;}
+
+.btn-detalhes {
+  background-color: transparent;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+}
+
+.btn-detalhes:hover {
+  background-color: var(--primary);
+  color: white;
+}
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.page-indicator {
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.empty-state, .loading-state {
+  text-align: center;
+  padding: 3rem;
+  background: var(--surface);
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  border: 1px dashed var(--border);
+}
+
+/* Tela de Detalhes */
+.detalhes-container h2 {
+  margin-bottom: 1.5rem;
+  color: var(--primary);
+  font-size: 2rem;
+}
+
+.detalhes-card {
+  background: var(--surface);
+  padding: 2.5rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.detalhes-card p {
+  font-size: 1.1rem;
+}
+
+.descricao-box {
+  margin-top: 1rem;
+  padding: 1.5rem;
+  background: var(--bg-color);
+  border-radius: 8px;
+  border-left: 4px solid var(--primary);
+}
+
+.descricao-box p {
+  margin-top: 0.5rem;
+  color: var(--text-main);
+  line-height: 1.6;
+}
+
+/* Ações do Card de Detalhes */
+.detalhes-actions {
+  display: flex;
+  justify-content: center; 
+  margin-top: 1.5rem; 
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border); 
+}
+
+.btn-voltar-center {
+  background-color: var(--surface);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  padding: 0.75rem 2.5rem; 
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-voltar-center:hover {
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  border-color: var(--text-muted);
+  transform: translateY(-1px);
+}

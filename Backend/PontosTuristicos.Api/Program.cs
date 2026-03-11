@@ -10,9 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("TodasPortas", policy =>
+    options.AddPolicy("PermitirFrontend", policy =>
     {
-        policy.AllowAnyOrigin()
+        policy.WithOrigins("http://localhost:5173")
               .AllowAnyMethod()
               .AllowAnyHeader();
     });
@@ -39,6 +39,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseCors("TodasPortas");
+app.UseCors("PermitirFrontend");
 app.MapControllers();
 app.Run();

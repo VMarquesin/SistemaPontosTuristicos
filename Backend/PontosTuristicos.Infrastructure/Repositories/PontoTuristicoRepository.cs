@@ -25,10 +25,9 @@ public class PontoTuristicoRepository : IPontoTuristicoRepository
             p.Descricao.Contains(termoBusca) ||
             p.Localizacao.Contains(termoBusca));
         }
+        
         var contadorTotal = await query.CountAsync();
-
         var termo = string.IsNullOrWhiteSpace(termoBusca) ? "" : termoBusca;
-
         var connection = _context.Database.GetDbConnection(); 
         var sql = "EXEC stp_BuscarPontosTuristicos @Termo, @Pagina, @TamanhoPagina";
 
@@ -71,6 +70,31 @@ public class PontoTuristicoRepository : IPontoTuristicoRepository
     {
         _context.PontosTuristicos.Remove(pontoTuristico);
         await _context.SaveChangesAsync();
+    }
+
+    public async Task<int> ObterOuCriarCidadeAsync(string nomeCidade, string siglaUf)
+    {
+        var estado = await _context.Set<Estado>()
+                                   .FirstOrDefaultAsync(e => e.Sigla == siglaUf);
+        
+        if (estado == null)
+        {
+            estado = new Estado { Sigla = siglaUf, Nome = siglaUf }; 
+            await _context.Set<Estado>().AddAsync(estado);
+            await _context.SaveChangesAsync(); 
+        }
+
+        var cidade = await _context.Set<Cidade>()
+                                   .FirstOrDefaultAsync(c => c.Nome == nomeCidade && c.Estado.Sigla == siglaUf);
+        
+        if (cidade == null)
+        {
+            cidade = new Cidade { Nome = nomeCidade, Estado = estado };
+            await _context.Set<Cidade>().AddAsync(cidade);
+            await _context.SaveChangesAsync(); 
+        }
+
+        return cidade.Id; 
     }
 }
 

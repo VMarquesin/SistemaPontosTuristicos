@@ -22,36 +22,51 @@ public class PontoTuristicoService : IPontoTuristicoService
     {
         return await _repository.ObterPorIdAsync(id);
     }
+    
     public async Task<PontoTuristico> AdicionarAsync(PontoTuristicoDto dto)
     {
+    
+        int idDaCidade = await _repository.ObterOuCriarCidadeAsync(dto.Cidade, dto.Uf);
+    
         var pontoTuristico = new PontoTuristico
         {
             Nome = dto.Nome,
             Descricao = dto.Descricao,
             Localizacao = dto.Localizacao,
             CEP = dto.CEP,
-            IdCidade = dto.IdCidade,
+            IdCidade = idDaCidade, 
             DataInclusao = DateTime.Now,
             Ativo = true 
         };
+    
         await _repository.AdicionarAsync(pontoTuristico);
         return pontoTuristico;
-    }
+    }   
+
     public async Task<PontoTuristico> AtualizarAsync(int id, PontoTuristicoDto dto)
     {
         var pontoExistente = await _repository.ObterPorIdAsync(id);
 
-        if (pontoExistente == null || !pontoExistente.Ativo) return null;
+        if (pontoExistente == null)
+        {
+            return null; // O seu Controller deve validar se retornou null para dar um 404 Not Found
+        }
+
+        // Usa a mesma inteligência de cidade do AdicionarAsync
+        int idDaCidade = await _repository.ObterOuCriarCidadeAsync(dto.Cidade, dto.Uf);
 
         pontoExistente.Nome = dto.Nome;
         pontoExistente.Descricao = dto.Descricao;
         pontoExistente.Localizacao = dto.Localizacao;
         pontoExistente.CEP = dto.CEP;
-        pontoExistente.IdCidade = dto.IdCidade;
-
+        pontoExistente.IdCidade = idDaCidade;
+        
+        // Mantém a DataInclusao e o status Ativo intocados
         await _repository.AtualizarAsync(pontoExistente);
+        
         return pontoExistente;
     }
+    
     public async Task<bool> DesativarAsync(int id)
     {
         var pontoExistente = await _repository.ObterPorIdAsync(id);

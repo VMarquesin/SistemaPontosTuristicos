@@ -22,7 +22,7 @@ public class pontosTuristicosController : ControllerBase
         [FromQuery] int pagina = 1, 
         [FromQuery] int tamanhoPagina = 10)
     {
-        var ( itens, ContadorTotal ) = await _service.ObterTodosAtivosAsync( termoBusca, pagina, tamanhoPagina );
+        var (itens, ContadorTotal) = await _service.ObterTodosAtivosAsync(termoBusca, pagina, tamanhoPagina);
 
         return Ok( new
         {
@@ -54,7 +54,7 @@ public class pontosTuristicosController : ControllerBase
         }
 
         var Salvar = await _service.AdicionarAsync(dto);
-        return CreatedAtAction( nameof( ObterPorId ), new { id = Salvar.IdPontosTuristicos }, Salvar );
+        return CreatedAtAction(nameof( ObterPorId ), new { id = Salvar.IdPontosTuristicos }, Salvar);
     }
     [HttpPut("{id}")]
     public async Task<IActionResult> Atualizar(int id, [FromBody] PontoTuristicoDto dto)

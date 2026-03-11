@@ -18,5 +18,8 @@ public class PontoTuristicoDto
     public string CEP { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "A cidade é obrigatória.")]
-    public int IdCidade { get; set; }
+    public string Cidade { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "O estado (UF) é obrigatório.")]
+    public string Uf { get; set; } = string.Empty;
 }

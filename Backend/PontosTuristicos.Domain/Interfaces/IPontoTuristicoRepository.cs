@@ -7,6 +7,7 @@ public interface IPontoTuristicoRepository
     Task<(IEnumerable<PontoTuristico> Itens, int ContadorTotal)> ObterTodosAsync(string termoBusca, int pagina, int tamanhoPagina);
     Task<PontoTuristico> ObterPorIdAsync(int id);
     Task AdicionarAsync(PontoTuristico pontoTuristico);
+    Task<int> ObterOuCriarCidadeAsync(string nomeCidade, string siglaUf);
     Task AtualizarAsync(PontoTuristico pontoTuristico);
     Task DeletarAsync(PontoTuristico pontoTuristico);
 }
