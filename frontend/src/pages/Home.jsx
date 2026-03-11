@@ -45,7 +45,7 @@ const [pontos, setPontos] = useState([]);
 
         <input 
           type="text" 
-          placeholder="Buscar por nome, descrição ou localização..." 
+          placeholder="Buscar por nome, descrição ou localização...(deixe vazio para listar todos)" 
           value={busca}
           onChange={(e) => setBusca(e.target.value)}
         />

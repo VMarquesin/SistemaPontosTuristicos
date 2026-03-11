@@ -3,6 +3,7 @@ import ErrorBoundary from './components/ErrorBoundary';
 import Home from './pages/Home';
 import Cadastro from './pages/Cadastro';
 import Detalhes from './pages/Detalhes';
+
 import './index.css';
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/detalhes/:id" element={<Detalhes />} />
             <Route path="/novo" element={<Cadastro />} />
+            <Route path="/editar/:id" element={<Cadastro />} />
           </Routes>
         </div>
       </Router>

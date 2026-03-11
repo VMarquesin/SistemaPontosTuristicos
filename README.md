@@ -1,93 +1,99 @@
-# SistemaPontosTuristicos
-# 🗺️ TurisMap - Gestão de Pontos Turísticos
+# 🗺️ Sistema de Mapeamento de Pontos Turísticos
 
-Este é um sistema completo (Full-Stack) desenvolvido para o gerenciamento e visualização de pontos turísticos. O projeto permite a listagem, busca textual, visualização de detalhes e o cadastro de novos pontos com integração dinâmica de localidades.
+Sistema Full-Stack desenvolvido para o gerenciamento e visualização de pontos turísticos, com foco em design moderno, arquitetura limpa e integração dinâmica de dados.
 
-## 🚀 Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 ### Back-end
-* **C# & .NET:** API RESTful robusta.
-* **Entity Framework Core:** ORM para mapeamento das entidades e persistência.
-* **Dapper (Micro ORM):** Utilizado para consultas complexas e de alta performance.
+* **C# & .NET 10:** API RESTful robusta.
+* **Entity Framework Core:** ORM principal (Code-First).
+* **Dapper:** Utilizado estrategicamente para consultas de alta performance via Stored Procedures.
 * **SQL Server:** Banco de dados relacional.
-* **Padrões e Arquitetura:** Injeção de Dependência, Padrão Repository, DTOs (Data Transfer Objects).
+* **Arquitetura:** Clean Architecture (DDD), Padrão Repository e DTOs.
 
 ### Front-end
-* **React + Vite:** Interface rápida e componentizada.
-* **React Router Dom:** Gerenciamento das rotas da aplicação (SPA).
-* **Axios:** Cliente HTTP para comunicação com a API e serviços externos.
+* **React + Vite:** Interface rápida e componentizada (JavaScript).
+* **React Router Dom:** Gerenciamento das rotas (SPA).
+* **Axios:** Cliente HTTP para comunicação com a API.
+* **CSS Customizado:** Variáveis de design moderno e alinhamento responsivo.
 
 ---
 
-## 🧠 Destaque Arquitetural: Integração IBGE e Padrão Upsert
+## Estrutura do Projeto
 
-### 1. CQRS Simplificado (EF Core + Dapper)
-Para otimizar a performance da aplicação, adotamos uma abordagem híbrida de acesso a dados:
-* **Escritas (Commands):** Utilizam o Entity Framework Core para garantir o rastreamento de estado e validações ricas de domínio.
-* **Leituras (Queries):** A busca principal de pontos turísticos (`ObterTodosAsync`) consome uma **Stored Procedure** (`stp_BuscarPontosTuristicos`) executada via **Dapper**. A procedure foi embutida diretamente nas Migrations do EF, garantindo que o banco de dados seja versionado por completo.
+### Backend (Clean Architecture)
+```text
+/backend
+├── PontosTuristicos.Api/             # Controllers, Program.cs e Injeção de Dependência
+├── PontosTuristicos.Application/     # Services, DTOs e Casos de Uso
+├── PontosTuristicos.Domain/          # Entidades (PontoTuristico, Cidade, Estado) e Interfaces
+└── PontosTuristicos.Infrastructure/  # DbContext, Repositórios, Dapper e Migrations 
+```
 
-### 2. Integração IBGE e Padrão Upsert (Find or Create)
-Para garantir a integridade dos dados e uma excelente experiência de usuário, a tela de Cadastro consome a **API Pública do IBGE**.
-No Back-end, a API recebe os textos da localidade e, através do Entity Framework, verifica se a Cidade/Estado já existem no banco. Se não existirem, o sistema cria a entidade sob demanda e a vincula ao novo Ponto Turístico.
+### Frontend (React + Vite)
+```text
+/frontend
+├── src/
+│   ├── components/  # Componentes reutilizáveis (PontoCard)
+│   ├── pages/       # Telas principais (Home, Cadastro)
+│   ├── services/    # Configuração do Axios e chamadas para API
+│   └── index.css    # Estilização global e design system
+```
 
----
+### Funcionalidades e Diferenciais
+CRUD Completo: Criação, leitura, atualização e exclusão de pontos turísticos.
 
-## ⚙️ Pré-requisitos
+Soft Delete: Exclusão lógica (Inativação) sem perda de histórico no banco.
 
-Para rodar o projeto localmente, você precisará ter instalado:
-* [.NET SDK](https://dotnet.microsoft.com/download)
-* [Node.js](https://nodejs.org/) (inclui o NPM)
-* [SQL Server](https://www.microsoft.com/pt-br/sql-server/sql-server-downloads) (LocalDB ou instância rodando)
+Busca Híbrida: Filtros textuais otimizados via Stored Procedure.
 
----
+Integração IBGE e Padrão Upsert (Diferencial): A tela de Cadastro consome a API Pública do IBGE. A API .NET recebe a localidade e aplica o padrão "Find or Create" (Upsert), inserindo novos Estados e Cidades no banco relacional sob demanda, garantindo integridade sem a necessidade de pré-popular milhares de registros.
 
-## 🛠️ Passo a Passo para Inicialização
+### Passo a Passo para Inicialização
+Pré-requisitos
+* **.NET SDK**
 
-### 1. Configurando o Back-end (API)
+* **Node.js (inclui o NPM)**
 
-Abra um terminal e navegue até a pasta do Back-end:
+* **SQL Server (LocalDB ou instância rodando)**
+
+
+1. Executando o Back-end (API)
+Abra um terminal e navegue até a pasta raiz do Back-end:
 ```bash
-cd backend
+cd BackEnd
+```
 
-Verifique se a string de conexão no arquivo appsettings.json aponta para o seu SQL Server local. Exemplo:
-
-JSON
+Verifique se a string de conexão no arquivo PontosTuristicos.Api/appsettings.json aponta para o seu SQL Server. Exemplo:
+```bash
 "ConnectionStrings": {
   "DefaultConnection": "Server=localhost;Database=MapeamentoPontosTuristicosDB;Trusted_Connection=True;TrustServerCertificate=True;"
 }
+```
+Rode as Migrations para criar o banco de dados e aplicar a Stored Procedure:
+```bash
+dotnet ef database update --project PontosTuristicos.Infrastructure --startup-project PontosTuristicos.Api
+```
+Inicie a aplicação:
+```bash
+dotnet run --project PontosTuristicos.Api
+```
+A API estará rodando em: http://localhost:5247
 
-Rode as Migrations para criar o banco de dados e as tabelas (o banco iniciará vazio):
+## Swagger
+A documentação da API via Swagger estará disponivel em: http://localhost:5247/swagger/index.html
 
-Bash
-dotnet ef database update
-Inicie a API:
-
-Bash
-dotnet run
-A API estará rodando geralmente na porta http://localhost:5247.
-
-2. Configurando o Front-end (React)
+2. Executando o Front-end (React)
 Abra outro terminal e navegue até a pasta do Front-end:
-
-Bash
+```bash
 cd frontend
-Instale as dependências do projeto:
-
-Bash
+```
+Instale as dependências:
+```bash
 npm install
-Inicie o servidor de desenvolvimento:
-
-Bash
+```
+Inicie o projeto:
+```bash
 npm run dev
-O Front-end estará rodando em http://localhost:5173.
-
-🧪 Como testar a aplicação?
-Acesse o Front-end e clique em "Cadastrar um ponto turístico".
-
-Preencha os dados e utilize o dropdown em cascata para selecionar Estado e Cidade (integrado ao IBGE).
-
-Após salvar, retorne à Home para ver o Ponto Turístico listado.
-
-Utilize a barra de Busca para testar os filtros textuais.
-
-Clique em "Ver Detalhes" para checar a rota dinâmica.
+```
+A aplicação estará disponível em: http://localhost:5173.

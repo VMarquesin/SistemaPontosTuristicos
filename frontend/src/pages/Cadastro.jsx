@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useParams ,useNavigate } from 'react-router-dom';
 import { pontoTuristicoService, ibgeService } from '../services/api';
 
 const Cadastro = () => {
@@ -8,6 +8,8 @@ const Cadastro = () => {
   const [cidades, setCidades] = useState([]);
   const [loadingCidades, setLoadingCidades] = useState(false);
   const [salvando, setSalvando] = useState(false);
+  const { id } = useParams(); 
+  const isEdicao = Boolean(id);
   
   const [formData, setFormData] = useState({
     nome: '',
@@ -41,6 +43,22 @@ const Cadastro = () => {
 
   }, [formData.uf]);
 
+  useEffect(() => {
+    if (isEdicao) {
+      pontoTuristicoService.obterPorId(id).then(res => {
+        const dados = res.data.dados || res.data;
+        setFormData({
+          nome: dados.nome,
+          descricao: dados.descricao,
+          localizacao: dados.localizacao,
+          cep: dados.cep || '',
+          uf: dados.cidade?.estado?.sigla || '',
+          cidade: dados.cidade?.nome || ''
+        });
+      }).catch(err => console.error("Erro ao buscar para edição", err));
+    }
+  }, [id]);
+
   const handleChange = (e) => {
 
     const { name, value } = e.target;
@@ -52,20 +70,25 @@ const Cadastro = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSalvando(true);
-
     try {
-      await pontoTuristicoService.cadastrar(formData);
+      if (isEdicao) {
+        await pontoTuristicoService.atualizar(id, formData);
+        
+      } else {
+        await pontoTuristicoService.cadastrar(formData);
+
+      }
 
       navigate('/');
-
     } catch (error) {
-      console.error("Erro no cadastro:", error);
-      alert("Erro ao cadastrar o ponto turístico. Verifique a conexão com a API.");
+
+      console.error("Erro ao salvar:", error);
+      alert("Erro ao salvar o ponto turístico.");
 
     } finally {
       setSalvando(false);
-
     }
+
   };
 
   return (
