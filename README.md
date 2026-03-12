@@ -66,18 +66,19 @@ cd Backend
 
 Verifique se a string de conexão no arquivo `PontosTuristicos.Api/appsettings.json` aponta para a sua instância local do SQL Server. 
 
-**Exemplo para SQL Server Padrão (LocalDB ou Instância Principal):**
+**Exemplo para SQL Server Padrão:**
 ```json
 "ConnectionStrings": {
   "DefaultConnection": "Server=.;Database=MapeamentoPontosTuristicosDB;Trusted_Connection=True;TrustServerCertificate=True;"
 } 
 ```
 
-**Exemplo para SQL Server Express (Versão Gratuita):**
+**Exemplo para SQL Server Express:**
+```json
 "ConnectionStrings": {
   "DefaultConnection": "Server=.\\SQLEXPRESS;Database=MapeamentoPontosTuristicosDB;Trusted_Connection=True;TrustServerCertificate=True;"
 }
-
+```
 Restaure as dependências:
 ```bash
 dotnet restore

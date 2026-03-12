@@ -15,24 +15,24 @@ public class pontosTuristicosController : ControllerBase
     {
         _service = service;
     }
-    // GET: api/pontosturisticos?termoBusca=praia&pagina=1&tamanhoPagina=10
+
     [HttpGet]
     public async Task<IActionResult> ObterTodos(
         [FromQuery] string? termoBusca, 
         [FromQuery] int pagina = 1, 
-        [FromQuery] int tamanhoPagina = 10)
+        [FromQuery] int tamanhoPagina = 5)
     {
         var (itens, ContadorTotal) = await _service.ObterTodosAtivosAsync(termoBusca, pagina, tamanhoPagina);
 
         return Ok( new
         {
-           Dados = itens,
+           Dados          = itens,
            TotalRegistros = ContadorTotal,
-           PaginaAtual = pagina,
-           tamanhoPagina = tamanhoPagina 
+           PaginaAtual    = pagina,
+           TamanhoPagina  = tamanhoPagina 
         });
     }
-    // GET: api/pontosturisticos/5
+
     [HttpGet("{id}")]
     public async Task<IActionResult> ObterPorId(int id)
     {
@@ -40,11 +40,11 @@ public class pontosTuristicosController : ControllerBase
         
         if (pontoTuristico == null)
         {
-            return NotFound(new {Mensagem = "Ponto turístico não encontrado."});
+            return NotFound(new { Mensagem = "Ponto turístico não encontrado." });
         }
         return Ok(pontoTuristico);
     }
-    // POST: api/pontosturisticos
+
     [HttpPost]
     public async Task<IActionResult> Adicionar([FromBody] PontoTuristicoDto dto)
     {
@@ -56,6 +56,7 @@ public class pontosTuristicosController : ControllerBase
         var Salvar = await _service.AdicionarAsync(dto);
         return CreatedAtAction(nameof( ObterPorId ), new { id = Salvar.IdPontosTuristicos }, Salvar);
     }
+
     [HttpPut("{id}")]
     public async Task<IActionResult> Atualizar(int id, [FromBody] PontoTuristicoDto dto)
     {
@@ -72,7 +73,7 @@ public class pontosTuristicosController : ControllerBase
         }
         return Ok(atualizado) ;
     }
-    // DELETE: api/pontosturisticos/5
+ 
     [HttpDelete("{id}")]
     public async Task<IActionResult> Desativar(int id)
     {
@@ -84,7 +85,7 @@ public class pontosTuristicosController : ControllerBase
         }
         return NoContent();
     }
-     // DELETE: api/pontosturisticos/5/reativar
+ 
     [HttpPatch("{id}/reativar")]
     public async Task<IActionResult> Reativar(int id)
     {
@@ -96,7 +97,7 @@ public class pontosTuristicosController : ControllerBase
         }
         return NoContent();
     }
-    // DELETE: api/pontosturisticos/5/fisico
+
     [HttpDelete("{id}/fisico")]
     public async Task<IActionResult> Deletar(int id)
     {

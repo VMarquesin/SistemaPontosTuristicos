@@ -29,13 +29,13 @@ public class PontoTuristicoService : IPontoTuristicoService
     
         var pontoTuristico = new PontoTuristico
         {
-            Nome = dto.Nome,
-            Descricao = dto.Descricao,
-            Localizacao = dto.Localizacao,
-            CEP = dto.CEP,
-            IdCidade = idDaCidade, 
+            Nome         = dto.Nome,
+            Descricao    = dto.Descricao,
+            Localizacao  = dto.Localizacao,
+            CEP          = dto.CEP,
+            IdCidade     = idDaCidade, 
             DataInclusao = DateTime.Now,
-            Ativo = true 
+            Ativo        = true 
         };
     
         await _repository.AdicionarAsync(pontoTuristico);
@@ -53,11 +53,11 @@ public class PontoTuristicoService : IPontoTuristicoService
 
         int idDaCidade = await _repository.ObterOuCriarCidadeAsync(dto.Cidade, dto.Uf);
 
-        pontoExistente.Nome = dto.Nome;
-        pontoExistente.Descricao = dto.Descricao;
+        pontoExistente.Nome        = dto.Nome;
+        pontoExistente.Descricao   = dto.Descricao;
         pontoExistente.Localizacao = dto.Localizacao;
-        pontoExistente.CEP = dto.CEP;
-        pontoExistente.IdCidade = idDaCidade;
+        pontoExistente.CEP         = dto.CEP;
+        pontoExistente.IdCidade    = idDaCidade;
         
         await _repository.AtualizarAsync(pontoExistente);
         

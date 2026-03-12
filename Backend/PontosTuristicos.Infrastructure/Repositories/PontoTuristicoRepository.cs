@@ -36,7 +36,7 @@ public class PontoTuristicoRepository : IPontoTuristicoRepository
             map: (ponto, cidade, estado) => 
             {
                 cidade.Estado = estado;
-                ponto.Cidade = cidade;  
+                ponto.Cidade  = cidade;  
                 return ponto;
             },
             param: new { Termo = termo, Pagina = pagina, TamanhoPagina = tamanhoPagina },
