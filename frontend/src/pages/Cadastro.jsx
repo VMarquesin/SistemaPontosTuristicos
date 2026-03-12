@@ -60,9 +60,9 @@ const Cadastro = () => {
   }, [id]);
 
   const handleChange = (e) => {
-
     const { name, value } = e.target;
     if (name === 'descricao' && value.length > 100) return;
+    if (name === 'cep' && value !== '' && !/^\d*$/.test(value)) return;
 
     setFormData({ ...formData, [name]: value });
   };
@@ -73,7 +73,7 @@ const Cadastro = () => {
     try {
       if (isEdicao) {
         await pontoTuristicoService.atualizar(id, formData);
-        
+
       } else {
         await pontoTuristicoService.cadastrar(formData);
 
@@ -93,7 +93,7 @@ const Cadastro = () => {
 
   return (
     <div className="cadastro-container">
-      <h2>Novo Ponto Turístico</h2>
+      <h2>{isEdicao ? 'Editar Ponto Turístico' : 'Novo Ponto Turístico'}</h2>
       
       <form onSubmit={handleSubmit} className="form-cadastro">
         <div className="field">
@@ -131,6 +131,7 @@ const Cadastro = () => {
               onChange={handleChange} 
               placeholder="Ex: 17600000"
               maxLength="8"
+              inputMode="numeric"
             />
           </div>
 
@@ -192,7 +193,7 @@ const Cadastro = () => {
           </button>
           
           <button type="submit" className="btn-main-action" disabled={salvando}>
-            {salvando ? 'Salvando...' : 'Cadastrar Ponto'}
+            {salvando ? 'Salvando...' : isEdicao ? 'Salvar Alterações' : 'Cadastrar Ponto'}
           </button>
 
         </div>

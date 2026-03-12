@@ -51,6 +51,10 @@ const Detalhes = () => {
       <div className="detalhes-card">
         <p><strong>📍 Localização:</strong> {ponto.localizacao}</p>
         
+        {ponto.cep && (
+          <p><strong>📮 CEP:</strong> {ponto.cep}</p>
+        )}
+
         {ponto.cidade && (
           <p><strong>🌎 Cidade/UF:</strong> {ponto.cidade.nome} - {ponto.cidade.estado?.sigla}</p>
         )}

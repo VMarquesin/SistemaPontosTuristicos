@@ -12,7 +12,7 @@ const ibgeApi = axios.create({
 
 export const pontoTuristicoService = {
   listar: (termo = '', pagina = 1) => 
-    api.get(`/pontosturisticos?termoBusca=${termo}&pagina=${pagina}&tamanhoPagina=5`),
+    api.get(`/pontosturisticos?termoBusca=${encodeURIComponent(termo)}&pagina=${pagina}&tamanhoPagina=5`),
   
   obterPorId: (id) => api.get(`/pontosturisticos/${id}`),
   cadastrar: (dados) => api.post('/pontosturisticos', dados),

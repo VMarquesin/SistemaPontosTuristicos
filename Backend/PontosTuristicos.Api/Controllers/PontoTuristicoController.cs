@@ -40,7 +40,7 @@ public class pontosTuristicosController : ControllerBase
         
         if (pontoTuristico == null)
         {
-            return NotFound(new {Mesagem = "Ponto turisto não encontrado."});
+            return NotFound(new {Mensagem = "Ponto turístico não encontrado."});
         }
         return Ok(pontoTuristico);
     }

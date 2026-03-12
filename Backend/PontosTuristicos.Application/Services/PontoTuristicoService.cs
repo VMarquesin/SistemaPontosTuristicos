@@ -1,4 +1,3 @@
-using System.Text;
 using PontosTuristicos.Application.DTOs;
 using PontosTuristicos.Application.Interfaces;
 using PontosTuristicos.Domain.Entities;
@@ -49,10 +48,9 @@ public class PontoTuristicoService : IPontoTuristicoService
 
         if (pontoExistente == null)
         {
-            return null; // O seu Controller deve validar se retornou null para dar um 404 Not Found
+            return null; 
         }
 
-        // Usa a mesma inteligência de cidade do AdicionarAsync
         int idDaCidade = await _repository.ObterOuCriarCidadeAsync(dto.Cidade, dto.Uf);
 
         pontoExistente.Nome = dto.Nome;
@@ -61,7 +59,6 @@ public class PontoTuristicoService : IPontoTuristicoService
         pontoExistente.CEP = dto.CEP;
         pontoExistente.IdCidade = idDaCidade;
         
-        // Mantém a DataInclusao e o status Ativo intocados
         await _repository.AtualizarAsync(pontoExistente);
         
         return pontoExistente;

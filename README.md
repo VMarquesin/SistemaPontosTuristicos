@@ -23,7 +23,7 @@ Sistema Full-Stack desenvolvido para o gerenciamento e visualização de pontos 
 
 ### Backend (Clean Architecture)
 ```text
-/backend
+/Backend
 ├── PontosTuristicos.Api/             # Controllers, Program.cs e Injeção de Dependência
 ├── PontosTuristicos.Application/     # Services, DTOs e Casos de Uso
 ├── PontosTuristicos.Domain/          # Entidades (PontoTuristico, Cidade, Estado) e Interfaces
@@ -61,19 +61,28 @@ Pré-requisitos
 1. Executando o Back-end (API)
 Abra um terminal e navegue até a pasta raiz do Back-end:
 ```bash
-cd BackEnd
+cd Backend
 ```
 
-Verifique se a string de conexão no arquivo PontosTuristicos.Api/appsettings.json aponta para o seu SQL Server. Exemplo:
-```bash
+Verifique se a string de conexão no arquivo `PontosTuristicos.Api/appsettings.json` aponta para a sua instância local do SQL Server. 
+
+**Exemplo para SQL Server Padrão (LocalDB ou Instância Principal):**
+```json
 "ConnectionStrings": {
-  "DefaultConnection": "Server=localhost;Database=MapeamentoPontosTuristicosDB;Trusted_Connection=True;TrustServerCertificate=True;"
+  "DefaultConnection": "Server=.;Database=MapeamentoPontosTuristicosDB;Trusted_Connection=True;TrustServerCertificate=True;"
+} 
+```
+
+**Exemplo para SQL Server Express (Versão Gratuita):**
+"ConnectionStrings": {
+  "DefaultConnection": "Server=.\\SQLEXPRESS;Database=MapeamentoPontosTuristicosDB;Trusted_Connection=True;TrustServerCertificate=True;"
 }
-```
-Rode as Migrations para criar o banco de dados e aplicar a Stored Procedure:
+
+Restaure as dependências:
 ```bash
-dotnet ef database update --project PontosTuristicos.Infrastructure --startup-project PontosTuristicos.Api
+dotnet restore
 ```
+
 Inicie a aplicação:
 ```bash
 dotnet run --project PontosTuristicos.Api
